@@ -1,7 +1,10 @@
 
+torch
 timm
+pandas
 kagglehub
 Pillow
 numpy
 scikit-learn
 hf_xet
+matplotlib.pyplot
