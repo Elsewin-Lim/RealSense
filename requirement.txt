@@ -1,4 +1,7 @@
 
+timm
+kagglehub
 Pillow
 numpy
 scikit-learn
+hf_xet
