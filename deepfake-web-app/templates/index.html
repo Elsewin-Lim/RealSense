@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepfake Image Detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="page-backdrop"></div>
+
+  <main class="page-shell">
+    <header class="app-header reveal" data-delay="0">
+      <div class="brand-block">
+        <div class="brand-copy">
+          <p class="eyebrow">Image authenticity scan</p>
+          <h1>Deepfake Detector</h1>
+          <p class="subtitle">Upload an image and review the model decision.</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="header-stats">
+          <article class="stat-card">
+            <span class="stat-label">Input</span>
+            <strong class="stat-value" id="imageSizeStat">224 x 224</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Threshold</span>
+            <strong class="stat-value" id="thresholdStat">39%</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Status</span>
+            <strong class="stat-value" id="modelStatusStat">Checking...</strong>
+          </article>
+        </div>
+
+        <div class="header-controls">
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-label theme-light">Light</span>
+              <span class="theme-toggle-label theme-dark">Dark</span>
+              <span class="theme-toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <section class="panel upload-panel reveal" data-delay="1">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">Input</p>
+            <h2>Upload</h2>
+          </div>
+          <span class="panel-hint">PNG, JPG, JPEG, WEBP</span>
+        </div>
+
+        <div class="upload-area" id="dropArea" tabindex="0" role="button" aria-label="Upload image">
+          <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden />
+
+          <div id="uploadInstructions" class="upload-state">
+            <div class="upload-icon">+</div>
+            <h3>Drop image</h3>
+            <p>Click or drag a file here.</p>
+          </div>
+
+          <div class="image-preview hidden" id="imagePreview">
+            <img id="previewImage" alt="Uploaded preview" class="hidden" />
+            <div id="previewPlaceholder" class="preview-placeholder">Preview</div>
+          </div>
+        </div>
+
+        <div class="file-meta">
+          <div>
+            <span class="meta-label">File</span>
+            <strong id="fileName">No image selected</strong>
+          </div>
+          <div>
+            <span class="meta-label">Size</span>
+            <strong id="fileSize">-</strong>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="secondary-btn" id="chooseBtn">Change Image</button>
+          <button type="button" class="primary-btn" id="predictBtn" disabled>Analyze</button>
+        </div>
+      </section>
+
+      <section class="panel result-panel reveal" id="resultPanel" data-delay="2">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">Output</p>
+            <h2>Result</h2>
+          </div>
+          <span class="decision-chip neutral" id="decisionChip" aria-live="polite">Waiting</span>
+        </div>
+
+        <div class="result-card hidden" id="resultCard" aria-live="polite">
+          <div class="result-topline">
+            <p class="result-label" id="predictionText">Waiting...</p>
+            <p class="confidence-text" id="confidenceText">Confidence will appear after analysis.</p>
+          </div>
+
+          <div class="score-grid">
+            <article class="score-tile fake">
+              <span class="score-title">Fake</span>
+              <strong id="fakeProb">0%</strong>
+              <div class="bar"><div id="fakeBar"></div></div>
+            </article>
+            <article class="score-tile real">
+              <span class="score-title">Real</span>
+              <strong id="realProb">0%</strong>
+              <div class="bar"><div id="realBar"></div></div>
+            </article>
+          </div>
+
+          <div class="insight-grid">
+            <article class="insight-card">
+              <span class="meta-label">Threshold</span>
+              <strong id="thresholdValue">-</strong>
+            </article>
+            <article class="insight-card">
+              <span class="meta-label">Rule</span>
+              <strong id="decisionRule">Threshold comparison</strong>
+            </article>
+          </div>
+
+          <div class="reasoning-grid">
+            <article class="reason-card fake">
+              <span class="meta-label">Fake side</span>
+              <h3 id="whyFakeTitle">Why fake</h3>
+              <p id="whyFakeText">Fake-side explanation appears here.</p>
+            </article>
+            <article class="reason-card real">
+              <span class="meta-label">Real side</span>
+              <h3 id="whyRealTitle">Why real</h3>
+              <p id="whyRealText">Real-side explanation appears here.</p>
+            </article>
+          </div>
+
+          <p class="note" id="resultNote"></p>
+        </div>
+
+        <div class="empty-result" id="emptyResult">
+          <h3>No analysis yet</h3>
+          <p>Upload an image to see the result.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
