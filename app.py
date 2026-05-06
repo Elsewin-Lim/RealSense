@@ -54,9 +54,9 @@ if __name__ == "__main__":
     # If the model is missing, the app still opens and will show a clear error when predicting.
     try:
         load_model_once()
-        print("✅ Model loaded successfully.")
+        print("Model loaded successfully.")
     except Exception as exc:
-        print(f"⚠️ Model not loaded yet: {exc}")
+        print(f"Model not loaded yet: {exc}")
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
